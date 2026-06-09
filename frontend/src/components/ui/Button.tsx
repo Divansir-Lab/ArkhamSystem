@@ -5,6 +5,7 @@ interface ButtonProps {
     onClick?: () => void;
 }
 
+// s
 const Button: React.FC<ButtonProps> = ({ children, onClick }) => {
     return <button onClick={onClick}>{children}</button>;
 };
