@@ -1,0 +1,112 @@
+# ==================================================
+# ROOT
+# ==================================================
+
+HELP.md
+
+# ==================================================
+# FRONTEND (React + Vite)
+# ==================================================
+
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+frontend/coverage/
+
+# Logs
+frontend/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==================================================
+# BACKEND (Spring Boot)
+# ==================================================
+
+backend/target/
+backend/build/
+
+backend/.env
+backend/.env.*
+
+backend/application-local.properties
+backend/application-local.yml
+backend/application-dev.properties
+backend/application-dev.yml
+
+*.class
+*.jar
+*.war
+
+hs_err_pid*
+replay_pid*
+
+# ==================================================
+# IDEs
+# ==================================================
+
+.idea/
+.vscode/
+
+*.iml
+*.ipr
+*.iws
+
+.project
+.classpath
+.factorypath
+
+.settings/
+.springBeans
+.sts4-cache/
+
+# ==================================================
+# NETBEANS
+# ==================================================
+
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# ==================================================
+# OS FILES
+# ==================================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==================================================
+# CACHE
+# ==================================================
+
+.cache/
+.tmp/
+.temp/
+
+# ==================================================
+# TESTS
+# ==================================================
+
+coverage/
+
+# ==================================================
+# DOCKER
+# ==================================================
+
+docker-compose.override.yml
+
+# ==================================================
+# MAVEN WRAPPER
+# ==================================================
+
+!.mvn/wrapper/maven-wrapper.jar
