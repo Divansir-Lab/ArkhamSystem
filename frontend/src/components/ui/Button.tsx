@@ -5,7 +5,7 @@ interface ButtonProps {
     onClick?: () => void;
 }
 
-// teste discord
+// teste discord2
 const Button: React.FC<ButtonProps> = ({ children, onClick }) => {
     return <button onClick={onClick}>{children}</button>;
 };
