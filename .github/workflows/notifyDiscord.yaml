@@ -22,12 +22,9 @@ on:
 jobs:
     commits:
         if: github.event_name == 'push'
-
-        uses: Divansir-Junior/github_Notifications/.github/workflows/notify-discord.yml@main
-
+        uses: Divansir-Lab/github_Notifications/.github/workflows/notify-discord.yml@main
         with:
             title: "Commit"
-
             message: |
                 Repositorio: ${{ github.repository }}
                 Branch: ${{ github.ref_name }}
@@ -38,18 +35,14 @@ jobs:
 
                 Link:
                 https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-
         secrets:
             DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_COMMITS }}
 
     pull_request:
         if: github.event_name == 'pull_request'
-
-        uses: Divansir-Junior/github_Notifications/.github/workflows/notify-discord.yml@main
-
+        uses: Divansir-Lab/github_Notifications/.github/workflows/notify-discord.yml@main
         with:
             title: "Pull Request"
-
             message: |
                 Repositorio: ${{ github.repository }}
 
@@ -64,18 +57,14 @@ jobs:
 
                 Link:
                 ${{ github.event.pull_request.html_url }}
-
         secrets:
             DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_PR }}
 
     issues:
         if: github.event_name == 'issues'
-
-        uses: Divansir-Junior/github_Notifications/.github/workflows/notify-discord.yml@main
-
+        uses: Divansir-Lab/github_Notifications/.github/workflows/notify-discord.yml@main
         with:
             title: "Issue"
-
             message: |
                 Repositorio: ${{ github.repository }}
 
@@ -90,6 +79,5 @@ jobs:
 
                 Link:
                 ${{ github.event.issue.html_url }}
-
         secrets:
             DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_ISSUES }}
