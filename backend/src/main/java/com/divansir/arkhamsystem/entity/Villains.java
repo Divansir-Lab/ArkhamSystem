@@ -16,6 +16,18 @@ public class Villains {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private Double height;
+
+    @Column(nullable = false)
+    private Double weight;
+
+    @Column(nullable = false)
+    private String imageUrl;
 }
