@@ -30,4 +30,6 @@ public class Villains {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    
 }
