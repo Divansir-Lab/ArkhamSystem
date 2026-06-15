@@ -16,4 +16,8 @@ public class VillainsService {
     public List<Villains> getAllVillains() {
         return villainsRepository.findAll();
     }
+
+    public Villains createVillain(Villains villain) {
+        return villainsRepository.save(villain);
+    }
 }

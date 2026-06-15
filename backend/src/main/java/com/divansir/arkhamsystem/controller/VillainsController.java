@@ -2,13 +2,16 @@ package com.divansir.arkhamsystem.controller;
 
 import com.divansir.arkhamsystem.entity.Villains;
 import com.divansir.arkhamsystem.service.VillainsService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,10 +22,22 @@ public class VillainsController {
 
     private final VillainsService villainsService;
 
-    public ResponseEntity<Villain> createVillain() {
-        Villain villain = new Villain();
-
-        return ResponseEntity.ok(villain);
+    @Operation(
+        summary = "Create villain",
+        description = "Creates a new villain",
+        tags = { "villains" }
+    )
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "201", description = "Villain created"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        }
+    )
+    @PostMapping
+    public ResponseEntity<Villains> createVillain(@RequestBody Villains villain) {
+        Villains createdVillain = villainsService.createVillain(villain);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdVillain);
     }
 
     @Operation(
@@ -45,11 +60,10 @@ public class VillainsController {
                 responseCode = "404",
                 description = "No villains found"
             ),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
         }
     )
-    @GetMapping("/")
+    @GetMapping
     public List<Villains> getAllVillains() {
         return villainsService.getAllVillains();
     }
