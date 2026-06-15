@@ -42,6 +42,25 @@ public class VillainsController {
     }
 
     @Operation(
+        summary = "Get villain by id",
+        description = "Returns a villain by id",
+        tags = { "villains" }
+    )
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved villain"),
+            @ApiResponse(responseCode = "404", description = "Villain not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        }
+    )
+    @GetMapping("/{id}")
+    public ResponseEntity<Villains> getVillainById(@PathVariable Long id) {
+        return villainsService.getVillainById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Operation(
         summary = "Create villain",
         description = "Creates a new villain",
         tags = { "villains" }
@@ -77,8 +96,9 @@ public class VillainsController {
         @PathVariable Long id,
         @RequestBody Villains villain
     ) {
-        Villains updatedVillain = villainsService.updateVillain(id, villain);
-        return ResponseEntity.ok(updatedVillain);
+        return villainsService.updateVillain(id, villain)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(
@@ -95,7 +115,10 @@ public class VillainsController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVillain(@PathVariable Long id) {
-        villainsService.deleteVillain(id);
+        if (!villainsService.deleteVillain(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.noContent().build();
     }
 }

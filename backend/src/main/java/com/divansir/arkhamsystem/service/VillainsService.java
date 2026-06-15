@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,28 +18,32 @@ public class VillainsService {
         return villainsRepository.findAll();
     }
 
+    public Optional<Villains> getVillainById(Long id) {
+        return villainsRepository.findById(id);
+    }
+
     public Villains createVillain(Villains villain) {
         return villainsRepository.save(villain);
     }
 
-    public Villains updateVillain(Long id, Villains villain) {
-        Villains existingVillain = villainsRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Villain not found"));
+    public Optional<Villains> updateVillain(Long id, Villains villain) {
+        return villainsRepository.findById(id).map(existingVillain -> {
+            existingVillain.setName(villain.getName());
+            existingVillain.setDescription(villain.getDescription());
+            existingVillain.setHeight(villain.getHeight());
+            existingVillain.setWeight(villain.getWeight());
+            existingVillain.setImageUrl(villain.getImageUrl());
 
-        existingVillain.setName(villain.getName());
-        existingVillain.setDescription(villain.getDescription());
-        existingVillain.setHeight(villain.getHeight());
-        existingVillain.setWeight(villain.getWeight());
-        existingVillain.setImageUrl(villain.getImageUrl());
-
-        return villainsRepository.save(existingVillain);
+            return villainsRepository.save(existingVillain);
+        });
     }
 
-    public void deleteVillain(Long id) {
+    public boolean deleteVillain(Long id) {
         if (!villainsRepository.existsById(id)) {
-            throw new IllegalArgumentException("Villain not found");
+            return false;
         }
 
         villainsRepository.deleteById(id);
+        return true;
     }
 }
