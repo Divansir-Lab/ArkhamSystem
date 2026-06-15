@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,22 @@ public class VillainsController {
     private final VillainsService villainsService;
 
     @Operation(
+        summary = "Get all villains",
+        description = "Returns a list of all villains",
+        tags = { "villains" }
+    )
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved all villains"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        }
+    )
+    @GetMapping
+    public ResponseEntity<List<Villains>> getAllVillains() {
+        return ResponseEntity.ok(villainsService.getAllVillains());
+    }
+
+    @Operation(
         summary = "Create villain",
         description = "Creates a new villain",
         tags = { "villains" }
@@ -33,54 +50,52 @@ public class VillainsController {
         value = {
             @ApiResponse(responseCode = "201", description = "Villain created"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(
-                responseCode = "500",
-                description = "Internal server error"
-            ),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
         }
     )
     @PostMapping
-    public ResponseEntity<Villains> createVillain(
-        @RequestBody Villains villain
-    ) {
+    public ResponseEntity<Villains> createVillain(@RequestBody Villains villain) {
         Villains createdVillain = villainsService.createVillain(villain);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdVillain);
     }
 
+    @Operation(
+        summary = "Update villain",
+        description = "Updates a villain by id",
+        tags = { "villains" }
+    )
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", description = "Villain updated"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Villain not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        }
+    )
     @PutMapping("/{id}")
     public ResponseEntity<Villains> updateVillain(
         @PathVariable Long id,
         @RequestBody Villains villain
     ) {
-        Villains updateVillain = villainsService.updateVillain(id, villain);
-        return ResponseEntity.ok(updateVillain);
+        Villains updatedVillain = villainsService.updateVillain(id, villain);
+        return ResponseEntity.ok(updatedVillain);
     }
 
     @Operation(
-        summary = "Get all villains",
-        description = "Returns a list of all villains",
+        summary = "Delete villain",
+        description = "Deletes a villain by id",
         tags = { "villains" }
     )
     @ApiResponses(
         value = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Successfully retrieved all villains"
-            ),
-            @ApiResponse(responseCode = "204", description = "No content"),
-            @ApiResponse(
-                responseCode = "500",
-                description = "Internal server error"
-            ),
-            @ApiResponse(
-                responseCode = "404",
-                description = "No villains found"
-            ),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "204", description = "Villain deleted"),
+            @ApiResponse(responseCode = "404", description = "Villain not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
         }
     )
-    @GetMapping
-    public List<Villains> getAllVillains() {
-        return villainsService.getAllVillains();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVillain(@PathVariable Long id) {
+        villainsService.deleteVillain(id);
+        return ResponseEntity.noContent().build();
     }
 }

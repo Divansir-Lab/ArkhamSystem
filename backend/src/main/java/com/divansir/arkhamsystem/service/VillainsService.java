@@ -33,4 +33,12 @@ public class VillainsService {
 
         return villainsRepository.save(existingVillain);
     }
+
+    public void deleteVillain(Long id) {
+        if (!villainsRepository.existsById(id)) {
+            throw new IllegalArgumentException("Villain not found");
+        }
+
+        villainsRepository.deleteById(id);
+    }
 }
