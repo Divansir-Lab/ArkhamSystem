@@ -20,4 +20,17 @@ public class VillainsService {
     public Villains createVillain(Villains villain) {
         return villainsRepository.save(villain);
     }
+
+    public Villains updateVillain(Long id, Villains villain) {
+        Villains existingVillain = villainsRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Villain not found"));
+
+        existingVillain.setName(villain.getName());
+        existingVillain.setDescription(villain.getDescription());
+        existingVillain.setHeight(villain.getHeight());
+        existingVillain.setWeight(villain.getWeight());
+        existingVillain.setImageUrl(villain.getImageUrl());
+
+        return villainsRepository.save(existingVillain);
+    }
 }

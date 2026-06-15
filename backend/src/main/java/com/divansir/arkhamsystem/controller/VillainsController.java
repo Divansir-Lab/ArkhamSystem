@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,13 +33,27 @@ public class VillainsController {
         value = {
             @ApiResponse(responseCode = "201", description = "Villain created"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(
+                responseCode = "500",
+                description = "Internal server error"
+            ),
         }
     )
     @PostMapping
-    public ResponseEntity<Villains> createVillain(@RequestBody Villains villain) {
+    public ResponseEntity<Villains> createVillain(
+        @RequestBody Villains villain
+    ) {
         Villains createdVillain = villainsService.createVillain(villain);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdVillain);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Villains> updateVillain(
+        @PathVariable Long id,
+        @RequestBody Villains villain
+    ) {
+        Villains updateVillain = villainsService.updateVillain(id, villain);
+        return ResponseEntity.ok(updateVillain);
     }
 
     @Operation(
@@ -60,7 +76,7 @@ public class VillainsController {
                 responseCode = "404",
                 description = "No villains found"
             ),
-            @ApiResponse(responseCode = "400", description = "Bad request")
+            @ApiResponse(responseCode = "400", description = "Bad request"),
         }
     )
     @GetMapping
